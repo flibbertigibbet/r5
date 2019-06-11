@@ -13,13 +13,9 @@ public abstract class FilePersistence {
 
     /**
      * Convenience method to ensure that all results files for a particular static site end up in the same place,
-     * which is typically a bucket on S3. The top level directory is hard-coded for now but could be configurable
-     * if and when actual use cases require it.
+     * which is typically a bucket on S3.
      */
-    public void saveStaticSiteData (AnalysisTask task, String fileName, PersistenceBuffer persistenceBuffer) {
-        String directoryName = "analysis-static/" + task.jobId;
-        saveData(directoryName, fileName, persistenceBuffer);
-    }
+    public abstract void saveStaticSiteData (AnalysisTask task, String fileName, PersistenceBuffer persistenceBuffer);
 
     /**
      * This is a blocking call and should only return when the file is completely uploaded.

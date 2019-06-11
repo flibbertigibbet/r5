@@ -8,7 +8,7 @@
 
     <groupId>com.conveyal</groupId>
     <artifactId>r5</artifactId>
-    <version>dynamic-static-site-bucket-SNAPSHOT</version>
+    <version>v4.5.4-static</version>
     <packaging>jar</packaging>
     <licenses>
         <license>

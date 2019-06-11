@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.TransferProgress;
 import com.amazonaws.services.s3.transfer.Upload;
+import com.conveyal.r5.analyst.cluster.AnalysisTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +40,9 @@ public class S3FilePersistence extends FilePersistence {
 
     // Low-level client, for now we're trying the high-level TransferManager TODO maybe use this so we don't have to shut down the transferManager
     private AmazonS3 amazonS3;
+    private String staticSiteBucket;
 
-    public S3FilePersistence (String region) {
+    public S3FilePersistence (String region, String staticSiteBucket) {
 
         amazonS3 = AmazonS3ClientBuilder.standard()
                 // .enableAccelerateMode() // this fails looking up s3-accelerate.amazonaws.com
@@ -51,6 +53,13 @@ public class S3FilePersistence extends FilePersistence {
                 .withS3Client(amazonS3)
                 .build();
 
+        this.staticSiteBucket = staticSiteBucket;
+    }
+
+    @Override
+    public void saveStaticSiteData (AnalysisTask task, String fileName, PersistenceBuffer persistenceBuffer) {
+        String directoryName = this.staticSiteBucket + "/" + task.jobId;
+        saveData(directoryName, fileName, persistenceBuffer);
     }
 
     @Override

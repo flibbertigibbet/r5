@@ -43,13 +43,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -459,8 +453,9 @@ public class StreetLayer implements Serializable, Cloneable {
 
             Coordinate[] coords = LongStream.of(way.nodes).mapToObj(nid -> {
                 Node n = osm.nodes.get(nid);
-                return new Coordinate(n.getLon(), n.getLat());
-            }).toArray(s -> new Coordinate[s]);
+                return Objects.isNull(n) ? null : new Coordinate(n.getLon(), n.getLat());
+            }).filter(s -> Objects.isNull(s)
+            ).toArray(s -> new Coordinate[s]);
 
             // nb using linestring not polygon so all found intersections are at edges.
             LineString g = GeometryUtils.geometryFactory.createLineString(coords);

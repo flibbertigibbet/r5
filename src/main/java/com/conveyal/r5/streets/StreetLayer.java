@@ -460,6 +460,10 @@ public class StreetLayer implements Serializable, Cloneable {
             // nb using linestring not polygon so all found intersections are at edges.
             LineString g = GeometryUtils.geometryFactory.createLineString(coords);
 
+            if (Objects.isNull(g)) {
+                continue;
+            }
+
             // create a vertex in the middle of the lot to reflect the park and ride
             Coordinate centroid = g.getCentroid().getCoordinate();
             int centerVertex = vertexStore.addVertex(centroid.y, centroid.x);

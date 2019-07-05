@@ -277,8 +277,10 @@ public class StreetLayer implements Serializable, Cloneable {
         for (Map.Entry<Long, Way> entry : osm.ways.entrySet()) {
             Way way = entry.getValue();
 
+            /*
             if (way.hasTag("park_ride", "yes"))
                 parkAndRideWays.add(way);
+            */
 
             if (!isWayRoutable(way)) {
                 continue;
@@ -294,6 +296,7 @@ public class StreetLayer implements Serializable, Cloneable {
                 }
             }
         }
+
         stressLabeler.logErrors();
 
         // summarize LTS statistics
@@ -315,9 +318,11 @@ public class StreetLayer implements Serializable, Cloneable {
 
         List<Node> parkAndRideNodes = new ArrayList<>();
 
+        /*
         for (Node node : osm.nodes.values()) {
             if (node.hasTag("park_ride", "yes")) parkAndRideNodes.add(node);
         }
+        */
 
         LOG.info("Done making street edges.");
         LOG.info("Made {} vertices and {} edges.", vertexStore.getVertexCount(), edgeStore.nEdges());
